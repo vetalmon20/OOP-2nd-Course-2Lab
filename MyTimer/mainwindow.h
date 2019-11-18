@@ -21,20 +21,35 @@ public:
     MainWindow(QWidget *parent = nullptr);
 
     std::vector <int> timers;
+    std::vector <QTime> alarms;
 
     ~MainWindow();
 
 public slots:
     void current_time();
     void give_signal();
+
     void add_timer(int in);
+    void edit_timer(int val);
     void check_timers();
     void upd_timers();
+
+    void add_alarm(int in);
+    void edit_alarm(int val);
+    void check_alarms();
 
 private slots:
     void on_createTimer_clicked();
 
-    void on_pushButton_clicked();
+    void on_deleteTimer_clicked();
+
+    void on_editTimer_clicked();
+
+    void on_createAlarm_clicked();
+
+    void on_deleteAlarm_clicked();
+
+    void on_editAlarm_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -44,6 +59,7 @@ private:
     FinishSignal *FSW;
 
     void delete_timer(int i);
+    void delete_alarm(int i);
 
 };
 #endif // MAINWINDOW_H

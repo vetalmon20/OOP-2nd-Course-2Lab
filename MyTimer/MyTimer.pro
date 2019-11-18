@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     createtimer.cpp \
+    edittimer.cpp \
     finishsignal.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -24,12 +25,14 @@ SOURCES += \
 
 HEADERS += \
     createtimer.h \
+    edittimer.h \
     finishsignal.h \
     mainwindow.h \
     managetimer.h
 
 FORMS += \
     createtimer.ui \
+    edittimer.ui \
     finishsignal.ui \
     mainwindow.ui \
     managetimer.ui
