@@ -51,7 +51,7 @@ void MainWindow:: check_timers(){
 
     for (unsigned long long int i = 0; i < timers.size(); i++){
         if(curr_int  >= timers[i]){
-            give_signal();
+            give_signal(timers_audio[i]);
             delete_timer(i);
         }
     }
@@ -70,26 +70,41 @@ void MainWindow::check_alarms()
         temp_min = alarms[i].minute();
         temp_sec = alarms[i].second();
         if((temp_hour == curr_hour) && (temp_min == curr_min) && (temp_sec == curr_sec))
-            give_signal();
+            give_signal(alarms_audio[i]);
     }
 }
 
-void MainWindow:: give_signal(){
+void MainWindow:: give_signal(int i){
 
 
     FSW = new FinishSignal(this);
     FSW->show();
     QMediaPlayer *player = new QMediaPlayer;
-    const QString path = "D:/MyRepositories/OOP/OOP-2nd-Course-2Lab/MyTimer/Audio/1.mp3";
+    QString path = "D:/MyRepositories/OOP/OOP-2nd-Course-2Lab/MyTimer/Audio/1.mp3";
+    switch (i) {
+        case 0:{
+            path = "D:/MyRepositories/OOP/OOP-2nd-Course-2Lab/MyTimer/Audio/1.mp3";
+            break;
+        }
+        case 1:{
+            path = "D:/MyRepositories/OOP/OOP-2nd-Course-2Lab/MyTimer/Audio/2.mp3";
+            break;
+        }
+        case 2:{
+            path = "D:/MyRepositories/OOP/OOP-2nd-Course-2Lab/MyTimer/Audio/3.mp3";
+            break;
+        }
+    }
     QUrl adress(QFileInfo(path).absoluteFilePath());
     player->setMedia(adress);
     player->setVolume(50);
     player->play();
 }
 
-void MainWindow::add_timer(int in)
+void MainWindow::add_timer(int in, int audio_num)
 {
     timers.push_back(in);
+    timers_audio.push_back(audio_num);
     QTime temp, curr_time;
     curr_time  = QTime::currentTime();
     int a, res;
@@ -119,7 +134,7 @@ void MainWindow::upd_timers()
 
 }
 
-void MainWindow::add_alarm(int in)
+void MainWindow::add_alarm(int in, int audio_num)
 {
     QTime curr_time = QTime::currentTime();
     int curr_time_int = curr_time.msecsSinceStartOfDay();
@@ -127,6 +142,7 @@ void MainWindow::add_alarm(int in)
 
     QTime alarm = alarm.fromMSecsSinceStartOfDay(alarm_val);
     alarms.push_back(alarm);
+    alarms_audio.push_back(audio_num);
     QString alarm_string = alarm.toString("hh : mm : ss");
     ui->alarmList->addItem(alarm_string);
 }
@@ -134,6 +150,7 @@ void MainWindow::add_alarm(int in)
 void MainWindow::delete_timer(int i)
 {
     timers.erase(timers.begin() + i);
+    timers_audio.erase(timers_audio.begin() + i);
     ui->timerList->takeItem(i);
 
 }
@@ -141,21 +158,23 @@ void MainWindow::delete_timer(int i)
 void MainWindow::delete_alarm(int i)
 {
   alarms.erase(alarms.begin() + i);
+  alarms_audio.erase(alarms_audio.begin() + i);
   ui->alarmList->takeItem(i);
 }
 
-void MainWindow::edit_timer(int val)
+void MainWindow::edit_timer(int val, int audio_num)
 {
     int row = ui->timerList->currentRow();
     QTime curr_time = QTime::currentTime();
     int curr_time_int = curr_time.msecsSinceStartOfDay();
     timers[row] = val;
+    timers_audio[row] = audio_num;
     QTime temp = QTime::fromMSecsSinceStartOfDay(val - curr_time_int);
     QString out = temp.toString("hh : mm : ss");
     ui->timerList->currentItem()->setText(out);
 }
 
-void MainWindow::edit_alarm(int val)
+void MainWindow::edit_alarm(int val, int audio_num)
 {
     int row = ui->alarmList->currentRow();
     QTime curr_time = QTime::currentTime();
@@ -163,6 +182,7 @@ void MainWindow::edit_alarm(int val)
     int alarm_int = val - curr_time_int;
     QTime alarm = alarm.fromMSecsSinceStartOfDay(alarm_int);
     alarms[row] = alarm;
+    alarms_audio[row] = audio_num;
     QString out = alarm.toString("hh : mm : ss");
     ui->alarmList->currentItem()->setText(out);
 }

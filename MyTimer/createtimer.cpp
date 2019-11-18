@@ -33,7 +33,19 @@ int CreateTimer::on_create_clicked()
     a = user_time.msecsSinceStartOfDay();
     b = curr_time.msecsSinceStartOfDay();
     c = a + b;
-    emit timer_set(c);
+    emit timer_set(c,audio_num);
     this->close();
     return c;
+}
+
+void CreateTimer::on_chooseAudio_clicked()
+{
+    CAW = new ChooseAudio(this);
+    CAW->show();
+    connect(CAW ,&ChooseAudio::audio_type, this, &CreateTimer::set_audio_num);
+}
+
+void CreateTimer::set_audio_num(int in)
+{
+    audio_num = in;
 }

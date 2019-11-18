@@ -2,6 +2,7 @@
 #define CREATETIMER_H
 
 #include <QDialog>
+#include "chooseaudio.h"
 
 namespace Ui {
 class CreateTimer;
@@ -20,11 +21,17 @@ private slots:
 
     int on_create_clicked();
 
+    void on_chooseAudio_clicked();
+
+    void set_audio_num(int in);
+
 signals:
-    void timer_set(int time);
+    void timer_set(int time, int audio_num);
 
 private:
     Ui::CreateTimer *ui;
+    ChooseAudio *CAW;
+    int audio_num;
 };
 
 #endif // CREATETIMER_H

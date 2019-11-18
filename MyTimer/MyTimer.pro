@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    chooseaudio.cpp \
     createtimer.cpp \
     edittimer.cpp \
     finishsignal.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
     managetimer.cpp
 
 HEADERS += \
+    chooseaudio.h \
     createtimer.h \
     edittimer.h \
     finishsignal.h \
@@ -31,6 +33,7 @@ HEADERS += \
     managetimer.h
 
 FORMS += \
+    chooseaudio.ui \
     createtimer.ui \
     edittimer.ui \
     finishsignal.ui \
@@ -41,3 +44,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    Resources.qrc

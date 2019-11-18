@@ -23,19 +23,22 @@ public:
     std::vector <int> timers;
     std::vector <QTime> alarms;
 
+    std::vector <int> timers_audio;
+    std::vector <int> alarms_audio;
+
     ~MainWindow();
 
 public slots:
     void current_time();
-    void give_signal();
+    void give_signal(int i);
 
-    void add_timer(int in);
-    void edit_timer(int val);
+    void add_timer(int in, int audio_num);
+    void edit_timer(int val, int audio_num);
     void check_timers();
     void upd_timers();
 
-    void add_alarm(int in);
-    void edit_alarm(int val);
+    void add_alarm(int in, int audio_num);
+    void edit_alarm(int val, int audio_num);
     void check_alarms();
 
 private slots:
