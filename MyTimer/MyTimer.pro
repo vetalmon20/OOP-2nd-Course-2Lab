@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     chooseaudio.cpp \
+    createalarm.cpp \
     createtimer.cpp \
     edittimer.cpp \
     finishsignal.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 
 HEADERS += \
     chooseaudio.h \
+    createalarm.h \
     createtimer.h \
     edittimer.h \
     finishsignal.h \
@@ -34,6 +36,7 @@ HEADERS += \
 
 FORMS += \
     chooseaudio.ui \
+    createalarm.ui \
     createtimer.ui \
     edittimer.ui \
     finishsignal.ui \

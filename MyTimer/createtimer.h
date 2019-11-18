@@ -25,8 +25,15 @@ private slots:
 
     void set_audio_num(int in);
 
+    void on_AmTimer_clicked();
+
+    void on_defaultTimer_clicked();
+
+    void on_alarmTimer_clicked();
+
 signals:
-    void timer_set(int time, int audio_num);
+    void timer_set(int time, int audio_num, bool ifchecked);
+    void timer_alarm_set(int time, int audio_num, bool ifchecked);
 
 private:
     Ui::CreateTimer *ui;

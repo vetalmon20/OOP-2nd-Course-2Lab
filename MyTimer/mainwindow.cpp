@@ -101,10 +101,10 @@ void MainWindow:: give_signal(int i){
     player->play();
 }
 
-void MainWindow::add_timer(int in, int audio_num)
+void MainWindow::add_timer(int in, int audio_num, bool ifchecked)
 {
-    timers.push_back(in);
     timers_audio.push_back(audio_num);
+    timers_to_check.push_back(ifchecked);
     QTime temp, curr_time;
     curr_time  = QTime::currentTime();
     int a, res;
@@ -114,6 +114,10 @@ void MainWindow::add_timer(int in, int audio_num)
 
     QString time_string = temp.toString("hh : mm : ss");
     ui->timerList->addItem(time_string);
+    if(ifchecked == 0)
+        timers.push_back(in - a);
+    else
+        timers.push_back(in);
 }
 
 void MainWindow::upd_timers()
@@ -126,10 +130,12 @@ void MainWindow::upd_timers()
     curr_time_int = curr_time.msecsSinceStartOfDay();
 
     for(unsigned long long int i = 0; i < timers.size(); i++){
-        temp_val = timers[i] - curr_time_int;
-        temp_time = temp_time.fromMSecsSinceStartOfDay(temp_val);
-        temp_text = temp_time.toString("hh : mm : ss");
-        ui->timerList->item(i)->setText(temp_text);
+            temp_val = timers[i] - curr_time_int;
+            temp_time = temp_time.fromMSecsSinceStartOfDay(temp_val);
+            if(timers_to_check[i] == 1){
+                temp_text = temp_time.toString("hh : mm : ss");
+                ui->timerList->item(i)->setText(temp_text);
+        }
     }
 
 }
@@ -151,6 +157,7 @@ void MainWindow::delete_timer(int i)
 {
     timers.erase(timers.begin() + i);
     timers_audio.erase(timers_audio.begin() + i);
+    timers_to_check.erase(timers_to_check.begin() + i);
     ui->timerList->takeItem(i);
 
 }
@@ -162,14 +169,21 @@ void MainWindow::delete_alarm(int i)
   ui->alarmList->takeItem(i);
 }
 
-void MainWindow::edit_timer(int val, int audio_num)
+void MainWindow::edit_timer(int val, int audio_num, bool ifchecked)
 {
     int row = ui->timerList->currentRow();
+    if(row == -1)
+        return;
     QTime curr_time = QTime::currentTime();
     int curr_time_int = curr_time.msecsSinceStartOfDay();
-    timers[row] = val;
+    if(ifchecked == 1)
+         timers[row] = val;
+    else
+        timers[row] = val - curr_time_int;
     timers_audio[row] = audio_num;
-    QTime temp = QTime::fromMSecsSinceStartOfDay(val - curr_time_int);
+    timers_to_check[row] = ifchecked;
+    QTime temp;
+    temp = QTime::fromMSecsSinceStartOfDay(val - curr_time_int);
     QString out = temp.toString("hh : mm : ss");
     ui->timerList->currentItem()->setText(out);
 }
@@ -177,6 +191,8 @@ void MainWindow::edit_timer(int val, int audio_num)
 void MainWindow::edit_alarm(int val, int audio_num)
 {
     int row = ui->alarmList->currentRow();
+    if(row == -1)
+        return;
     QTime curr_time = QTime::currentTime();
     int curr_time_int = curr_time.msecsSinceStartOfDay();
     int alarm_int = val - curr_time_int;
@@ -195,6 +211,7 @@ void MainWindow::on_editTimer_clicked()
          CTW = new CreateTimer(this);
          CTW->show();
          connect(CTW, &CreateTimer::timer_set, this, &MainWindow::edit_timer);
+         connect(CTW, &CreateTimer::timer_alarm_set, this, &MainWindow::edit_timer);
     }
 }
 
@@ -203,9 +220,9 @@ void MainWindow::on_editAlarm_clicked()
     if (ui->alarmList->currentRow() == -1)
         QMessageBox::information(this, "Wrong input", "You did not choose the item!");
     else{
-        CTW = new CreateTimer(this);
-        CTW->show();
-        connect(CTW, &CreateTimer::timer_set, this, &MainWindow::edit_alarm);
+        CAW = new createAlarm(this);
+        CAW->show();
+        connect(CAW ,&createAlarm::timer_set, this, &MainWindow::edit_alarm);
     }
 }
 
@@ -215,6 +232,7 @@ void MainWindow::on_createTimer_clicked()
     CTW = new CreateTimer(this);
     CTW->show();
     connect(CTW ,&CreateTimer::timer_set, this, &MainWindow::add_timer);
+    connect(CTW ,&CreateTimer::timer_alarm_set, this, &MainWindow::add_timer);
 }
 
 void MainWindow::on_deleteTimer_clicked()
@@ -223,6 +241,8 @@ void MainWindow::on_deleteTimer_clicked()
         QMessageBox::information(this, "Wrong input", "You did not choose the item!");
     else{
          int curr = ui->timerList->currentRow();
+         if(curr == -1)
+             return;
          delete_timer(curr);
     }
 }
@@ -230,9 +250,9 @@ void MainWindow::on_deleteTimer_clicked()
 
 void MainWindow::on_createAlarm_clicked()
 {
-    CTW = new CreateTimer(this);
-    CTW->show();
-    connect(CTW ,&CreateTimer::timer_set, this, &MainWindow::add_alarm);
+    CAW = new createAlarm(this);
+    CAW->show();
+    connect(CAW ,&createAlarm::timer_set, this, &MainWindow::add_alarm);
 }
 
 void MainWindow::on_deleteAlarm_clicked()

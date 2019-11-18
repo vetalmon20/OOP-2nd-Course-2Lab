@@ -15,6 +15,7 @@ ChooseAudio::ChooseAudio(QWidget *parent) :
     ui->listAudio->addItem("3.mp3");
     player = new QMediaPlayer;
     audio_num = 0;
+    ui->listAudio->setCurrentRow(0);
 }
 
 ChooseAudio::~ChooseAudio()

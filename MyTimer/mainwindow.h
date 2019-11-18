@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QDateTime>
 #include "createtimer.h"
+#include "createalarm.h"
 #include "finishsignal.h"
 #include <vector>
 
@@ -21,6 +22,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
 
     std::vector <int> timers;
+    std::vector <bool> timers_to_check;
     std::vector <QTime> alarms;
 
     std::vector <int> timers_audio;
@@ -32,8 +34,8 @@ public slots:
     void current_time();
     void give_signal(int i);
 
-    void add_timer(int in, int audio_num);
-    void edit_timer(int val, int audio_num);
+    void add_timer(int in, int audio_num, bool ifchecked);
+    void edit_timer(int val, int audio_num, bool ifchecked);
     void check_timers();
     void upd_timers();
 
@@ -59,6 +61,7 @@ private:
     QTimer *timer, *checker;
     QDateTime curr_time;
     CreateTimer *CTW;
+    createAlarm *CAW;
     FinishSignal *FSW;
 
     void delete_timer(int i);
