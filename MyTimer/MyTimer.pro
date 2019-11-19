@@ -16,32 +16,26 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    chooseaudio.cpp \
-    createalarm.cpp \
-    createtimer.cpp \
-    edittimer.cpp \
-    finishsignal.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    managetimer.cpp
+    Windows/Sources/chooseaudio.cpp \
+    Windows/Sources/createalarm.cpp \
+    Windows/Sources/createtimer.cpp \
+    Windows/Sources/finishsignal.cpp \
+    Windows/Sources/mainwindow.cpp \
+    main.cpp
 
 HEADERS += \
-    chooseaudio.h \
-    createalarm.h \
-    createtimer.h \
-    edittimer.h \
-    finishsignal.h \
-    mainwindow.h \
-    managetimer.h
+    Windows/Headers/chooseaudio.h \
+    Windows/Headers/createalarm.h \
+    Windows/Headers/createtimer.h \
+    Windows/Headers/finishsignal.h \
+    Windows/Headers/mainwindow.h \
 
 FORMS += \
-    chooseaudio.ui \
-    createalarm.ui \
-    createtimer.ui \
-    edittimer.ui \
-    finishsignal.ui \
-    mainwindow.ui \
-    managetimer.ui
+    Windows/Uis/chooseaudio.ui \
+    Windows/Uis/createalarm.ui \
+    Windows/Uis/createtimer.ui \
+    Windows/Uis/finishsignal.ui \
+    Windows/Uis/mainwindow.ui \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -1,4 +1,4 @@
-#include "chooseaudio.h"
+#include "../MyTimer/Windows/Headers/chooseaudio.h"
 #include "ui_chooseaudio.h"
 #include <QMessageBox>
 #include <QMediaPlayer>
@@ -23,6 +23,9 @@ ChooseAudio::~ChooseAudio()
     delete ui;
 }
 
+/**
+ * @brief on_listen_clicked is implemeted when the button "Listen" is clicked. It plays the certain audio.
+ */
 void ChooseAudio::on_listen_clicked()
 {
     player->stop();
@@ -52,6 +55,9 @@ void ChooseAudio::on_listen_clicked()
     }
 }
 
+/**
+ * @brief on_choose_clicked is implemented when the button "Choose" is clicked. It chooses the audio for the alarm/timer
+ */
 void ChooseAudio::on_choose_clicked()
 {
     player->stop();

@@ -1,7 +1,7 @@
-#include "mainwindow.h"
+#include "../MyTimer/Windows/Headers/mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDateTime>
-#include "createtimer.h"
+#include "../MyTimer/Windows/Headers/createtimer.h"
 #include <QMediaPlayer>
 #include <QUrl>
 #include <QFileInfo>
@@ -35,6 +35,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/**
+ * @brief current_time shows the current time in the main window
+ */
 void MainWindow::current_time()
 {
     QTime curr_time = QTime::currentTime();
@@ -43,6 +46,9 @@ void MainWindow::current_time()
 
 }
 
+/**
+ * @brief check_timers check all of the timers if their time is up
+ */
 void MainWindow:: check_timers(){
 
     QTime curr_time = QTime::currentTime();
@@ -57,6 +63,9 @@ void MainWindow:: check_timers(){
     }
 }
 
+/**
+ * @brief check_alarms check all of the alarms if their time is up
+ */
 void MainWindow::check_alarms()
 {
     QTime curr_time = QTime::currentTime();
@@ -74,6 +83,10 @@ void MainWindow::check_alarms()
     }
 }
 
+/**
+ * @brief give_signal is implemeted when the timer or alarm is worked. It just opens the finishsignal window and play the proper audio
+ * @param i is the value of the certain audio to play
+ */
 void MainWindow:: give_signal(int i){
 
 
@@ -101,6 +114,12 @@ void MainWindow:: give_signal(int i){
     player->play();
 }
 
+/**
+ * @brief add_timer adds the timer to the timer list.
+ * @param in is the value of the time in msecs
+ * @param audio_num the number of the proper audio to play
+ * @param ifchecked tells if the value of the time of the current timer should be changed in timer list
+ */
 void MainWindow::add_timer(int in, int audio_num, bool ifchecked)
 {
     timers_audio.push_back(audio_num);
@@ -120,6 +139,9 @@ void MainWindow::add_timer(int in, int audio_num, bool ifchecked)
         timers.push_back(in);
 }
 
+/**
+ * @brief upd_timers updates the value of the proper timers in the timer list
+ */
 void MainWindow::upd_timers()
 {
 
@@ -140,6 +162,11 @@ void MainWindow::upd_timers()
 
 }
 
+/**
+ * @brief add_alarm adds the alarm to the alarm list.
+ * @param in is the value of the time in msecs
+ * @param audio_num the number of the proper audio to play
+ */
 void MainWindow::add_alarm(int in, int audio_num)
 {
     QTime curr_time = QTime::currentTime();
@@ -153,6 +180,10 @@ void MainWindow::add_alarm(int in, int audio_num)
     ui->alarmList->addItem(alarm_string);
 }
 
+/**
+ * @brief delete_timer just deletes the timer from the list
+ * @param i the index of the timer to delete
+ */
 void MainWindow::delete_timer(int i)
 {
     timers.erase(timers.begin() + i);
@@ -162,6 +193,10 @@ void MainWindow::delete_timer(int i)
 
 }
 
+/**
+ * @brief delete_alarm  just deletes the alarm from the list
+ * @param i the index of the alarm to delete
+ */
 void MainWindow::delete_alarm(int i)
 {
   alarms.erase(alarms.begin() + i);
@@ -169,6 +204,12 @@ void MainWindow::delete_alarm(int i)
   ui->alarmList->takeItem(i);
 }
 
+/**
+ * @brief edit_timer edits the chosen timer in the timer list.
+ * @param in is the value of the time in msecs
+ * @param audio_num the number of the proper audio to play
+ * @param ifchecked tells if the value of the time of the current timer should be changed in timer list
+ */
 void MainWindow::edit_timer(int val, int audio_num, bool ifchecked)
 {
     int row = ui->timerList->currentRow();
@@ -188,6 +229,11 @@ void MainWindow::edit_timer(int val, int audio_num, bool ifchecked)
     ui->timerList->currentItem()->setText(out);
 }
 
+/**
+ * @brief edit_alarm edits the alarm in the alarm list.
+ * @param in is the value of the time in msecs
+ * @param audio_num the number of the proper audio to play
+ */
 void MainWindow::edit_alarm(int val, int audio_num)
 {
     int row = ui->alarmList->currentRow();
@@ -203,6 +249,9 @@ void MainWindow::edit_alarm(int val, int audio_num)
     ui->alarmList->currentItem()->setText(out);
 }
 
+/**
+ * @brief on_editTimer_clicked  is implemeted when the button "edit Timer" is clicked. It opens the createtimer window for the current timer in the list.
+ */
 void MainWindow::on_editTimer_clicked()
 {
     if (ui->timerList->currentRow() == -1)
@@ -215,6 +264,9 @@ void MainWindow::on_editTimer_clicked()
     }
 }
 
+/**
+ * @brief on_editAlarm_clicked is implemeted when the button "edit Alarm" is clicked. It opens the createalarm window for the current alarm in the list.
+ */
 void MainWindow::on_editAlarm_clicked()
 {
     if (ui->alarmList->currentRow() == -1)
@@ -226,7 +278,9 @@ void MainWindow::on_editAlarm_clicked()
     }
 }
 
-
+/**
+ * @brief on_createTimer_clicked is implemeted when the button "create Timer" is clicked. It opens the createtimer window.
+ */
 void MainWindow::on_createTimer_clicked()
 {
     CTW = new CreateTimer(this);
@@ -235,6 +289,9 @@ void MainWindow::on_createTimer_clicked()
     connect(CTW ,&CreateTimer::timer_alarm_set, this, &MainWindow::add_timer);
 }
 
+/**
+ * @brief on_deleteTimer_clicked  is implemeted when the button "delete Timer" is clicked. It calls the delete function for the current timer in the list.
+ */
 void MainWindow::on_deleteTimer_clicked()
 {
     if (ui->timerList->currentRow() == -1)
@@ -247,7 +304,9 @@ void MainWindow::on_deleteTimer_clicked()
     }
 }
 
-
+/**
+ * @brief on_createAlarm_clicked  is implemeted when the button "create Alarm" is clicked.  It opens the createalarm window.
+ */
 void MainWindow::on_createAlarm_clicked()
 {
     CAW = new createAlarm(this);
@@ -255,6 +314,9 @@ void MainWindow::on_createAlarm_clicked()
     connect(CAW ,&createAlarm::timer_set, this, &MainWindow::add_alarm);
 }
 
+/**
+ * @brief on_deleteAlarm_clicked is implemeted when the button "delete Alarm" is clicked. It calls the delete function for the current alarm in the list.
+ */
 void MainWindow::on_deleteAlarm_clicked()
 {
     if (ui->alarmList->currentRow() == -1)
